@@ -3,7 +3,18 @@
 #include "encrypt.h"
 
 
-int main(int argc, char const *argv[])
+void 
+main_menu()
+{
+    const std::string options[OPT] = {"Password", "Key", "Pincode"};
+    std::cout << "Choose an encryption method: \n";
+    for (size_t i = 0; i < OPT; i++)
+        std::cout << i << ": " << options[i] << "\n";
+}
+
+
+int 
+main(int argc, char const *argv[])
 {
     try
     {
@@ -13,17 +24,19 @@ int main(int argc, char const *argv[])
         std::ifstream infile(argv[1], std::ifstream::binary);
         if (!infile.is_open())
             throw(-2);
+        main_menu();
 
-        std::ofstream outfile(argv[2]);
 
         infile.seekg(0, std::ios::end);
         const size_t length = infile.tellg();
         infile.seekg(0, std::ios::beg);
 
-        char* buffer = new char[length];
+        char buffer[length];
         infile.read(buffer, length);
 
-        delete[] buffer;
+
+        std::ofstream outfile(argv[2]);
+
     }
 
     catch(const int err)
