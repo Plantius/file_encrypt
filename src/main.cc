@@ -1,11 +1,8 @@
 #include <filesystem>
 #include <fstream>
+#include <string.h>
 #include "encrypt.h"
 #include "standard.h"
-
-
-
-
 
 int 
 main(int argc, char const *argv[])
@@ -15,9 +12,9 @@ main(int argc, char const *argv[])
     int outcode = 0;
     try
     {
-        if (argc < 2)
+        if (argc < 3 )
             throw (-1);
-        std::filesystem::path p(argv[1]);
+        std::filesystem::path p(argv[2]);
         std::string option = {}, filename = argv[0];
 
         std::ifstream infile(argv[1], std::ifstream::binary);
@@ -35,7 +32,10 @@ main(int argc, char const *argv[])
             switch (std::stoi(option))
             {
             case 1:
-                outbuffer = password_encrypt(get_pwd(), buffer);
+                if (strcmp(argv[1], ENCRYPT))
+                    outbuffer = password_encrypt(get_pwd(), buffer);
+                if (strcmp(argv[1], DECRYPT))
+                    outbuffer = password_decrypt(get_pwd(), buffer);
                 break;
             
             default:
@@ -45,8 +45,8 @@ main(int argc, char const *argv[])
         }
 
         // Write encrypted file to outfile
-        if (argc >= 3)
-            filename = argv[2];
+        if (argc >= 4)
+            filename = argv[3];
 
         std::ofstream outfile(filename);
         outfile.write(buffer, size);
@@ -54,7 +54,7 @@ main(int argc, char const *argv[])
     }
     catch(const int err)
     {
-        std::cerr << "Usage: " << argv[0] << " <input-file> [output-file]\n";
+        std::cerr << "Usage: " << argv[0] << " <encrypt/decrypt (e/d)> <input-file> [output-file]\n";
         switch (err)
         {
         case -1:

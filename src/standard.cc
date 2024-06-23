@@ -19,7 +19,7 @@ void
 main_menu()
 {
     const std::string options[MAX_OPT] = {"Password", "Key", "Pincode"};
-    std::cout << "Choose an encryption method: \n";
+    std::cout << "Choose an encryption/decryption method: \n";
     for (size_t i = 1; i <= MAX_OPT; i++)
         std::cout << i << ": " << options[i-1] << "\n";
 }
