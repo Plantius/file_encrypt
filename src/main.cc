@@ -15,7 +15,7 @@ main(int argc, char const *argv[])
         if (argc < 3 )
             throw (-1);
         std::filesystem::path p(argv[2]);
-        std::string option = {}, filename = argv[0];
+        std::string option = {}, filename = argv[2];
 
         std::ifstream infile(argv[2], std::ifstream::binary);
         if (!infile.is_open())
@@ -47,9 +47,11 @@ main(int argc, char const *argv[])
         // Write encrypted file to outfile
         if (argc >= 4)
             filename = argv[3];
-
-        std::ofstream outfile(filename);
-        outfile.write(buffer, size);
+        std::cout << filename << std::endl;
+        std::ofstream outfile(filename, std::ios::out | std::ios::binary | std::ios::trunc);
+        if (!outfile.is_open())
+            throw(-5);
+        outfile.write(outbuffer, size);
         outfile.close();
     }
     catch(const int err)
@@ -62,12 +64,16 @@ main(int argc, char const *argv[])
             outcode = -1;
             break;
         case -2:
-            std::cerr << "Error: Invalid file.\n";
+            std::cerr << "Error: Invalid input file.\n";
             outcode = -2;
             break;
         case -3: case -4:
             std::cerr << "Error: Invalid password.\n";
             outcode = -3;
+            break;
+        case -5:
+            std::cerr << "Error: Invalid output file.\n";
+            outcode = -5;
             break;
         
         default:

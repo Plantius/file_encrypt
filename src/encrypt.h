@@ -9,6 +9,7 @@ char* password_encrypt(const std::string pwd,
 char* password_decrypt(const std::string pwd, 
                        const char* buffer, 
                        const size_t size);
+int hash_function(const std::string pwd);
 
 
 #endif
