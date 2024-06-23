@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem>
 #include <fstream>
 #include "encrypt.h"
 
@@ -20,22 +21,21 @@ main(int argc, char const *argv[])
     {
         if (argc < 3)
             throw (-1);
+        std::filesystem::path p(argv[1]);
 
         std::ifstream infile(argv[1], std::ifstream::binary);
         if (!infile.is_open())
             throw(-2);
+        
         main_menu();
-
-
-        infile.seekg(0, std::ios::end);
-        const size_t length = infile.tellg();
-        infile.seekg(0, std::ios::beg);
-
-        char buffer[length];
-        infile.read(buffer, length);
-
+        const size_t size = std::filesystem::file_size(p);
+        
+        char buffer[size];
+        infile.read(buffer, size);
 
         std::ofstream outfile(argv[2]);
+
+
 
     }
 
