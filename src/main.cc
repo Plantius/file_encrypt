@@ -1,13 +1,14 @@
 #include <filesystem>
 #include <fstream>
 #include "encrypt.h"
+#include "standard.h"
 
 
 std::string 
 get_pwd()
 {
     std::string pwd = {};
-    std::cout << "Enter a password:\n\tMax size 256 characters\n\tOnly ASCII characters\n";
+    std::cout << "Enter a password:\n Max size 256 characters\n Only ASCII characters\nPassword: ";
     std::getline(std::cin, pwd);
     
     if (pwd.size() > MAX_PWD)
@@ -36,10 +37,10 @@ main(int argc, char const *argv[])
     int outcode = 0;
     try
     {
-        if (argc < 3)
+        if (argc < 2)
             throw (-1);
         std::filesystem::path p(argv[1]);
-        std::string option = {};
+        std::string option = {}, filename = argv[0];
 
         std::ifstream infile(argv[1], std::ifstream::binary);
         if (!infile.is_open())
@@ -49,7 +50,7 @@ main(int argc, char const *argv[])
         
         buffer = new char[size];
         infile.read(buffer, size);
-        
+        infile.close();
         
         main_menu();
         if (std::getline(std::cin, option)){
@@ -65,14 +66,17 @@ main(int argc, char const *argv[])
             }
         }
 
-
         // Write encrypted file to outfile
-        std::ofstream outfile(argv[2]);
+        if (argc >= 3)
+            filename = argv[2];
+
+        std::ofstream outfile(filename);
         outfile.write(buffer, size);
+        outfile.close();
     }
     catch(const int err)
     {
-        std::cerr << "Usage: " << argv[0] << " <input-file> <output-file>\n";
+        std::cerr << "Usage: " << argv[0] << " <input-file> [output-file]\n";
         switch (err)
         {
         case -1:
