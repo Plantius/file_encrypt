@@ -33,9 +33,9 @@ main(int argc, char const *argv[])
             {
             case 1:
                 if (strcmp(argv[1], ENCRYPT) == 0)
-                    outbuffer = password_encrypt(get_pwd(), buffer);
+                    outbuffer = password_encrypt(get_pwd(), buffer, size);
                 else if (strcmp(argv[1], DECRYPT) == 0)
-                    outbuffer = password_decrypt(get_pwd(), buffer);
+                    outbuffer = password_decrypt(get_pwd(), buffer, size);
                 break;
             
             default:
