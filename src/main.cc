@@ -33,10 +33,10 @@ main(int argc, char const *argv[])
         char buffer[size];
         infile.read(buffer, size);
 
+
+        // Write encrypted file to outfile
         std::ofstream outfile(argv[2]);
-
-
-
+        outfile.write(buffer, size);
     }
 
     catch(const int err)
