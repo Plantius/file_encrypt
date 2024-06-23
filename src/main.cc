@@ -17,7 +17,7 @@ main(int argc, char const *argv[])
         std::filesystem::path p(argv[2]);
         std::string option = {}, filename = argv[0];
 
-        std::ifstream infile(argv[1], std::ifstream::binary);
+        std::ifstream infile(argv[2], std::ifstream::binary);
         if (!infile.is_open())
             throw(-2);
         
@@ -32,9 +32,9 @@ main(int argc, char const *argv[])
             switch (std::stoi(option))
             {
             case 1:
-                if (strcmp(argv[1], ENCRYPT))
+                if (strcmp(argv[1], ENCRYPT) == 0)
                     outbuffer = password_encrypt(get_pwd(), buffer);
-                if (strcmp(argv[1], DECRYPT))
+                else if (strcmp(argv[1], DECRYPT) == 0)
                     outbuffer = password_decrypt(get_pwd(), buffer);
                 break;
             

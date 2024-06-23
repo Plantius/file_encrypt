@@ -7,7 +7,7 @@
 char*
 password_encrypt(const std::string pwd, const char* buffer)
 {
-    std::cout << pwd << std::endl;
+    std::cout << "ENCRYPT " << pwd << std::endl;
 
     return nullptr;
 }
@@ -18,7 +18,7 @@ password_encrypt(const std::string pwd, const char* buffer)
 char*
 password_decrypt(const std::string pwd, const char* buffer)
 {
-    std::cout << pwd << std::endl;
+    std::cout << "DECRYPT " << pwd << std::endl;
 
     return nullptr;
 }
